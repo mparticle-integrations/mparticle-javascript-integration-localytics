@@ -15,6 +15,7 @@
 (function (window) {
     var name                    = 'LocalyticsEventForwarder',
         maxAllowedDimensions    = 10,
+        trackerCount            = 1,
         MessageType             = {
                                     PageView    : 3,
                                     PageEvent   : 4,
@@ -40,17 +41,34 @@
             reportingService    = null,
             customDimensions    = [],
             initOptions         = {},
-            isTesting           = false;
+            isTesting           = false,
+            trackerId           = null;
 
         self.name = name;
 
-        function initForwarder(settings, service, testMode) {
+        function createTrackerId() {
+            return 'mpllTracker' + trackerCount++;
+        }
+
+        function createCmd(cmd) {
+            // Prepends the specified command with the tracker id
+            return cmd + '.' + trackerId;
+        }
+                
+        function initForwarder(settings, service, testMode, tid) {
             forwarderSettings   = settings;
             service             = reportingService;
             isTesting           = testMode;
             initOptions         = getInitOptions();
             customDimensions    = getOrderedCustomDimensions();
             
+            if (!tid) {
+                trackerId = createTrackerId();
+            }
+            else {
+                trackerId = tid;
+            }
+                
             try {
                 if (!testMode) {
                     !function(l,y,t,i,c,s) {
@@ -62,7 +80,7 @@
                         (c = y.getElementsByTagName(t)[0]).parentNode.insertBefore(s, c);
                     }(window, document, 'script', 'll');
                     
-                    window.ll('init', settings.appKey, initOptions);
+                    window.ll(createCmd('init'), settings.appKey, initOptions);
                 }
 
                 isInitialized = true;
@@ -132,7 +150,7 @@
                 screenName = event.CustomFlags["Localytics.ScreenName"];
             }
             
-            window.ll('tagScreen', screenName);
+            window.ll(createCmd('tagScreen'), screenName);
         }
 
         function logEvent(event) {
@@ -148,9 +166,9 @@
             
             if(ltv !== null) {
                 var multiplier = forwarderSettings.trackClvAsRawValue ? 1 : 100;
-                window.ll('tagEvent', event.EventName, event.EventAttributes, ltv * multiplier);
+                window.ll(createCmd('tagEvent'), event.EventName, event.EventAttributes, ltv * multiplier);
             } else {
-                window.ll('tagEvent', event.EventName, event.EventAttributes);
+                window.ll(createCmd('tagEvent'), event.EventName, event.EventAttributes);
             }
         }
 
@@ -168,7 +186,7 @@
                     }
                     
                     if(ltv != null) {
-                        window.ll('tagEvent', data.EventName, data.EventAttributes, ltv);
+                        window.ll(createCmd('tagEvent'), data.EventName, data.EventAttributes, ltv);
                     } else {
                         return 'Can\'t forward commerce event: TotalAmount is set incorrectly';
                     }
@@ -187,7 +205,7 @@
             
             if(key === 'Localytics.CustomerName') {
                 try {
-                    window.ll('setCustomerName', value);
+                    window.ll(createCmd('setCustomerName'), value);
                 }
                 catch(e) {
                     return 'Can\'t call setCustomerName on forwarder: ' + name + ': ' + e;
@@ -216,10 +234,10 @@
 
             try {
                 if(window.mParticle.IdentityType.Email == type) {
-                    window.ll('setCustomerEmail', id);
+                    window.ll(createCmd('setCustomerEmail'), id);
                 }
                 else {
-                    window.ll('setCustomerId', id);
+                    window.ll(createCmd('setCustomerId'), id);
                 }
                     
                 return 'Successfully called identify on forwarder: ' + name;
@@ -243,7 +261,7 @@
             }
             
             if(index >= 0) {
-                window.ll('setCustomDimension', index, value);
+                window.ll(createCmd('setCustomDimension'), index, value);
             }
         }
         

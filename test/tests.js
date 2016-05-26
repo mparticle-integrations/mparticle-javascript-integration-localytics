@@ -77,7 +77,7 @@ describe('Localytics Forwarder', function () {
         var calledMethods = ['tagEvent', 'tagScreen', 'setCustomerEmail', 'setCustomerId', 'setCustomerName', 'setCustomDimension'];
 
         for (var i = 0; i < calledMethods.length; i++) {
-            this[calledMethods[i] + 'Called'] = false;
+            this[calledMethods[i] + '.tracker-name.called'] = false;
         }
 
         this.data = [];
@@ -94,7 +94,7 @@ describe('Localytics Forwarder', function () {
         }
         
         function ll(fnName) {
-            setCalledAttributes(fnName + 'Called', arguments);
+            setCalledAttributes(fnName + '.called', arguments);
         }
         
         return {
@@ -111,7 +111,7 @@ describe('Localytics Forwarder', function () {
             domain: 'test.com',
             trackPageView: 'False',
             customDimensions: '[{&quot;maptype&quot;:&quot;UserAttributeClass.Name&quot;,&quot;value&quot;:&quot;Dimension 0&quot;,&quot;map&quot;:&quot;test user attr&quot;},{&quot;maptype&quot;:&quot;UserAttributeClass.Name&quot;,&quot;value&quot;:&quot;Dimension 1&quot;,&quot;map&quot;:&quot;test user tag&quot;}]'
-        }, reportService.cb, true);
+        }, reportService.cb, true, 'tracker-name');
         
         mParticle.EventType         = EventType;
         mParticle.ProductActionType = ProductActionType;
@@ -130,7 +130,7 @@ describe('Localytics Forwarder', function () {
                 EventName     : 'TestPage'
             });
 
-            window.llObj.should.have.property('tagScreenCalled', true);
+            window.llObj.should.have.property('tagScreen.tracker-name.called', true);
             Should(window.llObj.data[0]).eql('TestPage');
             done();
         });
@@ -142,7 +142,7 @@ describe('Localytics Forwarder', function () {
                 CustomFlags   : {"Localytics.ScreenName" : "Screen 1"}
             });
 
-            window.llObj.should.have.property('tagScreenCalled', true);
+            window.llObj.should.have.property('tagScreen.tracker-name.called', true);
             Should(window.llObj.data[0]).eql('Screen 1');
             done();
         });
@@ -154,7 +154,7 @@ describe('Localytics Forwarder', function () {
                 CustomFlags   : {}
             });
 
-            window.llObj.should.have.property('tagScreenCalled', true);
+            window.llObj.should.have.property('tagScreen.tracker-name.called', true);
             Should(window.llObj.data[0]).eql('TestPage');
             done();
         });
@@ -165,7 +165,7 @@ describe('Localytics Forwarder', function () {
                 EventName     : 'Test Page Event'
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             Should(window.llObj.data[0]).eql('Test Page Event');
             done();
         });
@@ -178,7 +178,7 @@ describe('Localytics Forwarder', function () {
                 EventCategory   : EventType.Transaction
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             window.llObj.data[0].should.equal('Test Page Event with LTV');
             window.llObj.data[1].should.have.property('$Amount', 100);
             window.llObj.data[2].should.equal(10000);
@@ -194,7 +194,7 @@ describe('Localytics Forwarder', function () {
                 EventCategory   : EventType.Transaction
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             window.llObj.data[0].should.equal('Test Page Event');
             window.llObj.data[1].should.have.property('$Amount', 'a100');
             Should(window.llObj.data[2]).be.undefined;
@@ -205,7 +205,7 @@ describe('Localytics Forwarder', function () {
             mParticle.forwarder.init({
                 appKey: '923a7d5e3c9a43ca31a3854-9ade667e',
                 trackClvAsRawValue: true
-            }, reportService.cb, true);
+            }, reportService.cb, true, 'tracker-name');
         
             mParticle.forwarder.process({
                 EventDataType   : MessageType.PageEvent,
@@ -214,7 +214,7 @@ describe('Localytics Forwarder', function () {
                 EventCategory   : EventType.Transaction
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             window.llObj.data[0].should.equal('Test Page Event with LTV');
             window.llObj.data[1].should.have.property('$Amount', 99);
             window.llObj.data[2].should.equal(99);
@@ -228,7 +228,7 @@ describe('Localytics Forwarder', function () {
                 EventAttributes : {attr1: 'val1'}
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             window.llObj.data[0].should.be.equal('Test Page Event with no LTV');
             window.llObj.data[1].should.be.instanceof(Object);
             window.llObj.data[1].attr1.should.be.equal('val1');
@@ -242,35 +242,35 @@ describe('Localytics Forwarder', function () {
         it('should set user identity with id', function(done) {
             mParticle.forwarder.setUserIdentity('testcustomerid', mParticle.IdentityType.CustomerId);
 
-            window.llObj.should.have.property('setCustomerIdCalled', true);
+            window.llObj.should.have.property('setCustomerId.tracker-name.called', true);
             done();
         });
         
         it('should set user identity with id 2', function(done) {
             mParticle.forwarder.setUserIdentity('testcustomerid');
 
-            window.llObj.should.have.property('setCustomerIdCalled', true);
+            window.llObj.should.have.property('setCustomerId.tracker-name.called', true);
             done();
         });
         
         it('should set user identity with email', function(done) {
             mParticle.forwarder.setUserIdentity('test@test.com', mParticle.IdentityType.Email);
 
-            window.llObj.should.have.property('setCustomerEmailCalled', true);
+            window.llObj.should.have.property('setCustomerEmail.tracker-name.called', true);
             done();
         });
         
         it('should set customer name', function(done) {
             mParticle.forwarder.setUserAttribute('Localytics.CustomerName','Test Name');
 
-            window.llObj.should.have.property('setCustomerNameCalled', true);
+            window.llObj.should.have.property('setCustomerName.tracker-name.called', true);
             done();
         });
         
         it('should set custom dimensions', function(done) {
             mParticle.forwarder.setUserAttribute('test user attr','Test Value');
 
-            window.llObj.should.have.property('setCustomDimensionCalled', true);
+            window.llObj.should.have.property('setCustomDimension.tracker-name.called', true);
             Should(window.llObj.data[0]).eql(0);
             Should(window.llObj.data[1]).eql('Test Value');
             done();
@@ -279,7 +279,7 @@ describe('Localytics Forwarder', function () {
         it('should clear custom dimensions', function(done) {
             mParticle.forwarder.removeUserAttribute('test user attr');
 
-            window.llObj.should.have.property('setCustomDimensionCalled', true);
+            window.llObj.should.have.property('setCustomDimension.tracker-name.called', true);
             window.llObj.data[0].should.be.equal(0);
             Should(window.llObj.data[1]).be.undefined;
             done();
@@ -288,7 +288,7 @@ describe('Localytics Forwarder', function () {
         it('should not call any user events', function(done) {
             mParticle.forwarder.setUserAttribute('UserAttr1','Test Value');
 
-            window.llObj.should.have.property('setCustomerNameCalled', false);
+            window.llObj.should.have.property('setCustomerName.tracker-name.called', false);
             done();
         });
         
@@ -306,7 +306,7 @@ describe('Localytics Forwarder', function () {
                 }
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             Should(window.llObj.data[2]).eql(10);
 
             done();
@@ -322,7 +322,7 @@ describe('Localytics Forwarder', function () {
                 }
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             Should(window.llObj.data[2]).eql(-10);
 
             done();
@@ -339,7 +339,7 @@ describe('Localytics Forwarder', function () {
                 }
             });
 
-            window.llObj.should.have.property('tagEventCalled', true);
+            window.llObj.should.have.property('tagEvent.tracker-name.called', true);
             window.llObj.data[0].should.equal('Test AddToCart');
             Should(window.llObj.data[1]).be.undefined;;
 
