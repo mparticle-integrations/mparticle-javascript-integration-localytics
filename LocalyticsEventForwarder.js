@@ -178,15 +178,21 @@
                 return 'Can\'t forward commerce event: No production action found';
                 
             switch (data.ProductAction.ProductActionType) {
-                case mParticle.ProductActionType.Refund:
                 case mParticle.ProductActionType.Purchase:
-                    var ltv = null;
-                    if(!isNaN(parseInt(data.ProductAction.TotalAmount, 10))) {
-                        ltv = parseInt(data.ProductAction.TotalAmount, 10);
+                case mParticle.ProductActionType.Refund:
+                    var total = null,
+                        multiplier = forwarderSettings.trackClvAsRawValue ? 1 : 100;
+                        
+                    if (data.ProductAction.ProductActionType == mParticle.ProductActionType.Refund) {
+                        multiplier *= -1;
                     }
                     
-                    if(ltv != null) {
-                        window.ll(createCmd('tagEvent'), data.EventName, data.EventAttributes, ltv);
+                    if(!isNaN(parseFloat(data.ProductAction.TotalAmount, 10))) {
+                        total = parseFloat(data.ProductAction.TotalAmount, 10).toFixed(2);
+                    }
+                    
+                    if(total != null) {
+                        window.ll(createCmd('tagEvent'), data.EventName, data.EventAttributes, total * multiplier);
                     } else {
                         return 'Can\'t forward commerce event: TotalAmount is set incorrectly';
                     }

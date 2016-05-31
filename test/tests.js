@@ -307,7 +307,7 @@ describe('Localytics Forwarder', function () {
             });
 
             window.llObj.should.have.property('tagEvent.tracker-name.called', true);
-            Should(window.llObj.data[2]).eql(10);
+            Should(window.llObj.data[2]).eql(1000);
 
             done();
         });
@@ -318,12 +318,12 @@ describe('Localytics Forwarder', function () {
                 EventName     : 'Test refund',
                 ProductAction : {
                     ProductActionType: mParticle.ProductActionType.Refund,
-                    TotalAmount      : -10
+                    TotalAmount      : 10
                 }
             });
 
             window.llObj.should.have.property('tagEvent.tracker-name.called', true);
-            Should(window.llObj.data[2]).eql(-10);
+            Should(window.llObj.data[2]).eql(-1000);
 
             done();
         });
