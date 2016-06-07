@@ -57,7 +57,7 @@
                 
         function initForwarder(settings, service, testMode, tid) {
             forwarderSettings   = settings;
-            service             = reportingService;
+            reportingService    = service;
             isTesting           = testMode;
             initOptions         = getInitOptions();
             customDimensions    = getOrderedCustomDimensions();
