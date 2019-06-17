@@ -14,6 +14,7 @@
 
 (function (window) {
     var name                    = 'LocalyticsEventForwarder',
+        moduleId = 84,
         maxAllowedDimensions    = 10,
         trackerCount            = 1,
         MessageType             = {
@@ -306,6 +307,17 @@
         this.removeUserAttribute    = removeUserAttribute;
     };
 
+    function getId() {
+        return moduleId;
+    }
+
+    function register(config) {
+        if (config.kits) {
+            config.kits[name] = {
+                constructor: constructor
+            };
+        }
+    }
 
     if (!window ||
         !window.mParticle ||
@@ -316,7 +328,12 @@
 
     window.mParticle.addForwarder({
         name       : name,
-        constructor: constructor
+        constructor: constructor,
+        getId: getId
     });
+
+    module.exports = {
+        register: register
+    };
 
 })(window);
