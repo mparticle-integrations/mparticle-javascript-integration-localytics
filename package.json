@@ -1,10 +1,16 @@
 {
-  "name": "integration-twitter",
-  "description": "mParticle integration sdk for Twitter",
-  "repository": "https://github.com/mParticle/integration-twitter",
+  "name": "@mparticle/web-localytics-kit",
+  "version": "2.0.0-rc1",
+  "author": "mParticle Developers <developers@mparticle.com> (https://www.mparticle.com)",
+  "description": "mParticle integration sdk for Localytics",
+  "repository": "https://github.com/mparticle-integrations/mparticle-javascript-integration-localytics",
   "devDependencies": {
     "blanket": "1.1.7",
     "should": "7.1.0",
     "mocha": "2.3.2"
-  }
+  },
+  "dependencies": {
+    "@mparticle/web-sdk": "^2.0.0"
+  },
+  "license": "Apache-2.0"
 }
