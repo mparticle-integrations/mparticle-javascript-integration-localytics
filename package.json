@@ -4,6 +4,9 @@
   "description": "mParticle integration sdk for Localytics",
   "version": "2.0.0-rc.1",
   "browser": "dist/LocalyticsEventForwarder.js",
+  "files": [
+    "dist/LocalyticsEventForwarder.js"
+  ],
   "repository": "https://github.com/mparticle-integrations/mparticle-javascript-integration-localytics",
   "scripts": {
     "build": "rollup --config rollup.config.js",
