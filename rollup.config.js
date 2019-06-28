@@ -1,36 +1,53 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 
-export default [{
-    input: 'src/LocalyticsEventForwarder.js',
-    output: {
-        file: 'LocalyticsEventForwarder.js',
-       format: 'umd',
-        exports: 'named',
-        name: 'mp-localytics-kit',
-        strict: false
+export default [
+    {
+        input: 'src/LocalyticsEventForwarder.js',
+        output: {
+            file: 'LocalyticsEventForwarder.js',
+            format: 'iife',
+            exports: 'named',
+            name: 'mpLocalyticsKit',
+            strict: false
+        },
+        plugins: [
+            resolve({
+                browser: true
+            }),
+            commonjs()
+        ]
     },
-    plugins: [
-        resolve({
-            browser: true
-        }),
-        commonjs()
-    ]
-},
-{
-    input: 'src/LocalyticsEventForwarder.js',
-    output: {
-        file: 'dist/LocalyticsEventForwarder.js',
-        format: 'umd',
-        exports: 'named',
-        name: 'mp-localytics-kit',
-        strict: false
+    {
+        input: 'src/LocalyticsEventForwarder.js',
+        output: {
+            file: 'dist/LocalyticsEventForwarder.js',
+            format: 'iife',
+            exports: 'named',
+            name: 'mpLocalyticsKit',
+            strict: false
+        },
+        plugins: [
+            resolve({
+                browser: true
+            }),
+            commonjs()
+        ]
     },
-    plugins: [
-        resolve({
-            browser: true
-        }),
-        commonjs()
-    ]
-}
-] 
+    {
+        input: 'src/LocalyticsEventForwarder.js',
+        output: {
+            file: 'npm/LocalyticsEventForwarder.js',
+            format: 'cjs',
+            exports: 'named',
+            name: 'mpLocalyticsKit',
+            strict: false
+        },
+        plugins: [
+            resolve({
+                browser: true
+            }),
+            commonjs()
+        ]
+    }
+]
