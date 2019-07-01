@@ -5,7 +5,7 @@
   "description": "mParticle integration sdk for Localytics",
   "browser": "dist/LocalyticsEventForwarder.common.js",
   "files": [
-    "dist/LocalyticsEventForwarde-.ommonr.js"
+    "dist/LocalyticsEventForwarder.common.js"
   ],
   "repository": "https://github.com/mparticle-integrations/mparticle-javascript-integration-localytics",
   "scripts": {
