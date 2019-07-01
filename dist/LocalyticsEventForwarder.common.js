@@ -1,3 +1,26 @@
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/*!
+ * isobject <https://github.com/jonschlinkert/isobject>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(val) {
+  return val != null && typeof val === 'object' && Array.isArray(val) === false;
+}
+
+var isobject = /*#__PURE__*/Object.freeze({
+  'default': isObject
+});
+
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
+}
+
+var isobject$1 = getCjsExportFromNamespace(isobject);
+
 //  Copyright 2015 mParticle, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +35,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-    var isobject = require('isobject');
+    
 
     var name                    = 'LocalyticsEventForwarder',
         moduleId = 84,
@@ -43,7 +66,6 @@
             reportingService    = null,
             customDimensions    = [],
             initOptions         = {},
-            isTesting           = false,
             trackerId           = null;
 
         self.name = name;
@@ -60,7 +82,6 @@
         function initForwarder(settings, service, testMode, tid) {
             forwarderSettings   = settings;
             reportingService    = service;
-            isTesting           = testMode;
             initOptions         = getInitOptions();
             customDimensions    = getOrderedCustomDimensions();
             
@@ -75,7 +96,7 @@
                 if (!testMode) {
                     !function(l,y,t,i,c,s) {
                         l['LocalyticsGlobal'] = i;
-                        l[i] = function() { (l[i].q = l[i].q || []).push(arguments) };
+                        l[i] = function() { (l[i].q = l[i].q || []).push(arguments); };
                         l[i].t = +new Date;
                         (s = y.createElement(t)).type = 'text/javascript';
                         s.src = '//web.localytics.com/v3/localytics.js';
@@ -318,12 +339,12 @@
             return;
         }
 
-        if (!isobject(config)) {
+        if (!isobject$1(config)) {
             window.console.log('\'config\' must be an object. You passed in a ' + typeof config);
             return;
         }
 
-        if (isobject(config.kits)) {
+        if (isobject$1(config.kits)) {
             config.kits[name] = {
                 constructor: constructor
             };
@@ -344,7 +365,10 @@
         });
     }
 
-    module.exports = {
+    var LocalyticsEventForwarder = {
         register: register
     };
+var LocalyticsEventForwarder_1 = LocalyticsEventForwarder.register;
 
+exports.default = LocalyticsEventForwarder;
+exports.register = LocalyticsEventForwarder_1;
