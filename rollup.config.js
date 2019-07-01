@@ -21,7 +21,7 @@ export default [
     {
         input: 'src/LocalyticsEventForwarder.js',
         output: {
-            file: 'dist/LocalyticsEventForwarder.js',
+            file: 'dist/LocalyticsEventForwarder.iife.js',
             format: 'iife',
             exports: 'named',
             name: 'mpLocalyticsKit',
@@ -37,7 +37,7 @@ export default [
     {
         input: 'src/LocalyticsEventForwarder.js',
         output: {
-            file: 'npm/LocalyticsEventForwarder.js',
+            file: 'dist/LocalyticsEventForwarder.common.js',
             format: 'cjs',
             exports: 'named',
             name: 'mpLocalyticsKit',
