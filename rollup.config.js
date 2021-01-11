@@ -5,22 +5,6 @@ export default [
     {
         input: 'src/LocalyticsEventForwarder.js',
         output: {
-            file: 'LocalyticsEventForwarder.js',
-            format: 'iife',
-            exports: 'named',
-            name: 'mpLocalyticsKit',
-            strict: false
-        },
-        plugins: [
-            resolve({
-                browser: true
-            }),
-            commonjs()
-        ]
-    },
-    {
-        input: 'src/LocalyticsEventForwarder.js',
-        output: {
             file: 'dist/LocalyticsEventForwarder.iife.js',
             format: 'iife',
             exports: 'named',
