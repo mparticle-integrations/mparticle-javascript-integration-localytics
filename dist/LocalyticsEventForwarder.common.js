@@ -11,16 +11,6 @@ function isObject(val) {
   return val != null && typeof val === 'object' && Array.isArray(val) === false;
 }
 
-var isobject = /*#__PURE__*/Object.freeze({
-  'default': isObject
-});
-
-function getCjsExportFromNamespace (n) {
-	return n && n['default'] || n;
-}
-
-var isobject$1 = getCjsExportFromNamespace(isobject);
-
 //  Copyright 2015 mParticle, Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -99,7 +89,7 @@ var isobject$1 = getCjsExportFromNamespace(isobject);
                         l[i] = function() { (l[i].q = l[i].q || []).push(arguments); };
                         l[i].t = +new Date;
                         (s = y.createElement(t)).type = 'text/javascript';
-                        s.src = '//web.localytics.com/v3/localytics.js';
+                        s.src = '//web.localytics.com/v4/localytics.min.js';
                         (c = y.getElementsByTagName(t)[0]).parentNode.insertBefore(s, c);
                     }(window, document, 'script', 'll');
                     
@@ -335,16 +325,16 @@ var isobject$1 = getCjsExportFromNamespace(isobject);
 
     function register(config) {
         if (!config) {
-            window.console.log('You must pass a config object to register the kit ' + name);
+            console.log('You must pass a config object to register the kit ' + name);
             return;
         }
 
-        if (!isobject$1(config)) {
-            window.console.log('\'config\' must be an object. You passed in a ' + typeof config);
+        if (!isObject(config)) {
+            console.log('\'config\' must be an object. You passed in a ' + typeof config);
             return;
         }
 
-        if (isobject$1(config.kits)) {
+        if (isObject(config.kits)) {
             config.kits[name] = {
                 constructor: constructor
             };
@@ -354,15 +344,17 @@ var isobject$1 = getCjsExportFromNamespace(isobject);
                 constructor: constructor
             };
         }
-        window.console.log('Successfully registered ' + name + ' to your mParticle configuration');
+        console.log('Successfully registered ' + name + ' to your mParticle configuration');
     }
 
-    if (window && window.mParticle && window.mParticle.addForwarder) {
-        window.mParticle.addForwarder({
-            name: name,
-            constructor: constructor,
-            getId: getId
-        });
+    if (typeof window !== 'undefined') {
+        if (window && window.mParticle && window.mParticle.addForwarder) {
+            window.mParticle.addForwarder({
+                name: name,
+                constructor: constructor,
+                getId: getId
+            });
+        }
     }
 
     var LocalyticsEventForwarder = {
